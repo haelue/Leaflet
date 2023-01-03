@@ -21,13 +21,15 @@ export var CircleMarker = Path.extend({
 
 		// @option radius: Number = 10
 		// Radius of the circle marker, in pixels
-		radius: 10
+		radius: 10,
+		star: 1,
 	},
 
 	initialize: function (latlng, options) {
 		Util.setOptions(this, options);
 		this._latlng = toLatLng(latlng);
 		this._radius = this.options.radius;
+		this._star = this.options.radius;
 	},
 
 	// @method setLatLng(latLng: LatLng): this
@@ -61,10 +63,25 @@ export var CircleMarker = Path.extend({
 		return this._radius;
 	},
 
+	// @method setStar(star: Number): this
+	// Sets the n-star of a star-marker.
+	setStar: function (star) {
+		this._star = star;
+		return this.redraw();
+	},
+
+	// @method getStar(): Number
+	// Returns the current n-star of a star-marker.
+	getStar: function () {
+		return this._star;
+	},
+
 	setStyle : function (options) {
 		var radius = options && options.radius || this._radius;
+		var star = options && options.star || this._star;
 		Path.prototype.setStyle.call(this, options);
 		this.setRadius(radius);
+		this.setStar(star);
 		return this;
 	},
 

@@ -309,22 +309,32 @@ export var Canvas = Renderer.extend({
 		if (!this._drawing || layer._empty()) { return; }
 
 		var p = layer._point,
-		    ctx = this._ctx,
-		    r = Math.max(Math.round(layer._radius), 1),
-		    s = (Math.max(Math.round(layer._radiusY), 1) || r) / r;
-
-		if (s !== 1) {
-			ctx.save();
-			ctx.scale(1, s);
-		}
-
+		ctx = this._ctx;
 		ctx.beginPath();
-		ctx.arc(p.x, p.y / s, r, 0, Math.PI * 2, false);
 
-		if (s !== 1) {
-			ctx.restore();
+		if (layer._star > 2) {
+			var verts = Util.createStar(layer._star, layer._point.x, layer._point.y, layer._radius), j;
+			for (j = 0; j < verts.length; j++) {
+				p = verts[j];
+				ctx[j ? 'lineTo' : 'moveTo'](p.x, p.y);
+			}
+			ctx.closePath();
+		} else {
+			var r = Math.max(Math.round(layer._radius), 1),
+			s = (Math.max(Math.round(layer._radiusY), 1) || r) / r;
+
+			if (s !== 1) {
+				ctx.save();
+				ctx.scale(1, s);
+			}
+
+			ctx.beginPath();
+			ctx.arc(p.x, p.y / s, r, 0, Math.PI * 2, false);
+
+			if (s !== 1) {
+				ctx.restore();
+			}
 		}
-
 		this._fillStroke(ctx, layer);
 	},
 

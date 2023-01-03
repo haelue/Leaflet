@@ -239,3 +239,28 @@ export function cancelAnimFrame(id) {
 		cancelFn.call(window, id);
 	}
 }
+
+export function polarPoint(x, y, rad, r) {
+	return {x: x + Math.cos(rad) * r, y: y + Math.sin(rad) * r};
+}
+
+export function createStar(n, x, y, radius, radOffset = 0) {
+	var verts = [];
+	if (n > 2) {
+		if (n < 5) {
+			for (var k = 0; k < n; k++) {
+				verts.push(polarPoint(x, y, 2 * k * Math.PI / n + radOffset, radius));
+			}
+		} else {
+			var lineN = Math.round(0.375 * n); // 隔n个角连线    Math.round((3 / 8) * n)
+			var rad1 = Math.PI / 2 - (lineN / n) * Math.PI; // 连线 与 半径线的夹角    (Math.PI - (lineN / n) * (2 * Math.PI)) / 2
+			var rad2 = Math.PI * n; // 中心到连线交点 与 半径线的夹角    2 * Math.PI / (2 * n)
+			var rad3 = Math.PI - rad1 - rad2;
+			var radius2 = Math.sin(rad1) * radius / Math.sin(rad3); // 正弦定理    (Math.sin(rad1) * radius) / Math.sin(rad3)
+			for (var j = 0; j < 2 * n; j++) {
+				verts.push(polarPoint(x, y, j * Math.PI / n + radOffset, j % 2 === 0 ? radius : radius2));
+			}
+		}
+	}
+	return verts;
+}
