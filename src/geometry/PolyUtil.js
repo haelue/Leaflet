@@ -59,7 +59,7 @@ export function clipPolygon(points, bounds, round) {
  * Returns the center ([centroid](http://en.wikipedia.org/wiki/Centroid)) of the passed LatLngs (first ring) from a polygon.
  */
 export function polygonCenter(latlngs, crs) {
-	var i, j, p1, p2, f, area, x, y, center;
+	var i, p1, p2, f, area, x, y, center;
 
 	if (!latlngs || latlngs.length === 0) {
 		throw new Error('latlngs not passed');
@@ -77,16 +77,17 @@ export function polygonCenter(latlngs, crs) {
 
 	var len = points.length;
 	area = x = y = 0;
+	var po = points[0];
 
 	// polygon centroid algorithm;
-	for (i = 0, j = len - 1; i < len; j = i++) {
-		p1 = points[i];
-		p2 = points[j];
+	for (i = 2; i < len; i++) {
+		p1 = points[i - 1];
+		p2 = points[i];
 
-		f = p1.y * p2.x - p2.y * p1.x;
-		x += (p1.x + p2.x) * f;
-		y += (p1.y + p2.y) * f;
-		area += f * 3;
+		f = (p1.x - po.x) * (p2.y - po.y) - (p1.y - po.y) * (p2.x - po.x);
+		x += (p1.x + p2.x + po.x) / 3 * f;
+		y += (p1.y + p2.y + po.y) / 3 * f;
+		area += f;
 	}
 
 	if (area === 0) {

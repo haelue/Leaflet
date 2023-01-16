@@ -254,7 +254,7 @@ export function createStar(n, x, y, radius, radOffset = 0) {
 		} else {
 			var lineN = Math.round(0.375 * n); // 隔n个角连线    Math.round((3 / 8) * n)
 			var rad1 = Math.PI / 2 - (lineN / n) * Math.PI; // 连线 与 半径线的夹角    (Math.PI - (lineN / n) * (2 * Math.PI)) / 2
-			var rad2 = Math.PI * n; // 中心到连线交点 与 半径线的夹角    2 * Math.PI / (2 * n)
+			var rad2 = Math.PI / n; // 中心到连线交点 与 半径线的夹角    2 * Math.PI / (2 * n)
 			var rad3 = Math.PI - rad1 - rad2;
 			var radius2 = Math.sin(rad1) * radius / Math.sin(rad3); // 正弦定理    (Math.sin(rad1) * radius) / Math.sin(rad3)
 			for (var j = 0; j < 2 * n; j++) {
