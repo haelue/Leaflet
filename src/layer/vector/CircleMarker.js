@@ -29,7 +29,7 @@ export var CircleMarker = Path.extend({
 		Util.setOptions(this, options);
 		this._latlng = toLatLng(latlng);
 		this._radius = this.options.radius;
-		this._star = this.options.radius;
+		this._star = this.options.star;
 	},
 
 	// @method setLatLng(latLng: LatLng): this

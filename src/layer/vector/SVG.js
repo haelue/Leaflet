@@ -170,7 +170,7 @@ export var SVG = Renderer.extend({
 		var p = layer._point,
 		    r = Math.max(Math.round(layer._radius), 1);
 		if (layer._star > 2) {
-			this._setPath(layer, pointsToPath([createStar(layer._star, layer._point.x, layer._point.y, r)], closed));
+			this._setPath(layer, pointsToPath([createStar(layer._star, layer._point.x, layer._point.y, r)], true));
 		} else {
 			var r2 = Math.max(Math.round(layer._radiusY), 1) || r,
 			arc = 'a' + r + ',' + r2 + ' 0 1,0 ';
